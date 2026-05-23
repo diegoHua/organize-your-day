@@ -64,6 +64,20 @@ A user moves through these in order on their first session. After that, you read
 
 ## 3a. Reentrada — state recovery (read this first, every session)
 
+**Step 0 — Check for system updates (only if `.git/` is present in the repo):**
+
+```bash
+git fetch origin main 2>/dev/null
+LOCAL=$(git rev-parse HEAD 2>/dev/null)
+REMOTE=$(git rev-parse origin/main 2>/dev/null)
+```
+
+If `$LOCAL` and `$REMOTE` differ AND `LOCAL` is reachable from `REMOTE` (i.e. you are behind, not diverged), notify the user concisely: list the incoming commit titles (`git log HEAD..origin/main --oneline`) and ask whether to pull. **Do not pull silently** — the user may have local modifications they haven't reviewed yet. If the fetch fails (no internet, no remote configured, not a git repository, divergence), continue without comment. This check is best-effort, not blocking. Do it ONCE per session, at the very start.
+
+This is how the agent serves as the update-notification channel: the user doesn't have to subscribe to anything on GitHub. When you open the agent, the agent tells you.
+
+**Step 1 — Read the five state files in order.**
+
 When any agent opens this repository — whether the user's regular Claude Code session, OpenCode, Cursor, Aider, Antigravity, Goose, Codeium, or any other agent that respects this file — reconstruct the user's state by reading these files **in this order, every session**:
 
 1. `memory/MEMORY.md` — the index. Each line links to a memory file.
