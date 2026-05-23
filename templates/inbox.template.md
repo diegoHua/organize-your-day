@@ -6,6 +6,26 @@ Status values: `pending`, `in-triage`, `assigned`, `in-progress`, `done`, `archi
 
 ---
 
+## Eisenhower matrix — triage view
+
+> This is a triage view, NOT a scheduling view. It does NOT replace the rule
+> of "one single analytical priority visible per day." It informs that choice.
+
+|                   | **Urgent** (deadline this week)                          | **Not urgent** (no immediate deadline)                          |
+|-------------------|----------------------------------------------------------|-----------------------------------------------------------------|
+| **Important**     | **Q1 · DO NOW** — fills the day's peak analytical block  | **Q2 · SCHEDULE** — placed into future BRAC blocks              |
+|                   | • [Task IDs here]                                        | • [Task IDs here]                                               |
+| **Not important** | **Q3 · SIMPLIFY / DELEGATE** — fits in transitions only  | **Q4 · DELETE / ARCHIVE** — drop from inbox at day-close        |
+|                   | • [Task IDs here]                                        | • [Task IDs here]                                               |
+
+**How to use:**
+- New task enters → classify here first.
+- Day's peak analytical block always starts with a Q1 task (or top Q2 if no Q1 exists).
+- Q3 fits in transitions only (post-recovery, pre-meal). Never inside a BRAC block.
+- Q4 gets archived or deleted at day-close.
+
+---
+
 ## Decisions log
 
 (One-line dated entries. Track which tasks became priorities and why. Example:

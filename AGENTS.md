@@ -106,7 +106,7 @@ Goal: establish the user's profile in <15 minutes. Do not capture tasks before t
 
 **Step 3 — First capture.** Ask for a free-form brain-dump of everything pending. No filtering.
 
-**Step 4 — First triage.** Group by domain. For each item, classify in your head: modality (analytical/creative/admin), size (atomic vs. project), and whether it has an external deadline. If a task is a "project," ask the user to commit to the **first atomic next physical action** — never let a project sit in inbox unresolved.
+**Step 4 — First triage.** Group by domain. For each item, classify in your head: modality (analytical/creative/admin), size (atomic vs. project), and whether it has an external deadline. If a task is a "project," ask the user to commit to the **first atomic next physical action** — never let a project sit in inbox unresolved. **Also place each task in the Eisenhower matrix at the top of `inbox.md`** (see Section 6.5). This is mandatory: the matrix is how the agent picks the day's single priority each morning.
 
 **Step 5 — First plan.** Build `plan_actual.md` for today (or for tomorrow if it's already evening). Surface only the single priority. Show the BRAC blocks.
 
@@ -139,6 +139,33 @@ If the user surfaces a new task during the day:
 - Ask: "On a 1–5, how honest was today's timebox?" If consistently over-budget, propose shorter blocks tomorrow.
 - Seed `plan_actual.md` for tomorrow with at least the first block's priority and next physical action. The user should wake up to a plan, not an empty page.
 - If blocks were skipped, do not moralize. Just record.
+
+### 6.5 Eisenhower matrix maintenance
+
+The top of `inbox.md` contains a 2×2 matrix (Urgent × Important) that classifies every task in the inbox. It is **a triage view, not a planning view** — it informs which task becomes the day's single priority but never replaces forced scarcity (Section 1, principle 1).
+
+**Quadrant rules:**
+- **Q1 — Urgent + Important (DO NOW).** Fills the day's peak analytical block. Always start the day here if any Q1 exists.
+- **Q2 — Important, not urgent (SCHEDULE).** Placed into future BRAC blocks across the week. If the user's whole inbox is Q2 (no urgent deadlines), the day's priority comes from here, picked by the user's stated importance ranking.
+- **Q3 — Urgent, not important (SIMPLIFY/DELEGATE).** Fits in transition windows only — never inside a BRAC block. If a Q3 task keeps coming back without getting done, that's a signal to delegate, automate, or kill it.
+- **Q4 — Not urgent, not important (DELETE/ARCHIVE).** Drop from inbox at day-close. Vigilance: tasks that linger here are creating Zeigarnik tension for no gain.
+
+**When to update the matrix:**
+- Every triage event (Section 5 Step 4, Section 6.3 capture mid-day at day-close).
+- Whenever a deadline appears or disappears (move between urgent/not-urgent columns).
+- At day-close (Section 6.4), as part of the calibration ritual: prune Q4, demote stale Q1.
+
+**Horizon clarification (important — agents sometimes get this wrong):**
+
+The system supports three horizons. Do not conflate them.
+
+| Horizon | What lives there | Example |
+|---------|------------------|---------|
+| **Daily** | `plan_actual.md` — BRAC blocks for today. **Scheduling.** | "13:00–14:30 → T8" |
+| **Weekly** | Top of `inbox.md` (Decisions log) + Eisenhower matrix. **Objectives, not schedule.** | "This week's priority: T1/T2/T3" |
+| **Monthly/quarterly** | Calendar events with milestone dates. **Anchors.** | "Birthday June 25 with milestones May 30 / June 13 / June 22" |
+
+**Weekly horizon is legitimate.** When the user asks "what are my priorities for this week?" the answer comes from the Eisenhower matrix + the latest entry in Decisions log. **Do not refuse weekly planning by citing decision fatigue** — that misapplies the research. What the research forbids is *minute-by-minute scheduling of the whole week in advance*; declaring weekly objectives is not the same thing.
 
 ---
 
