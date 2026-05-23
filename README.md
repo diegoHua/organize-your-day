@@ -1,6 +1,6 @@
 # Organize Your Day
 
-A personal daily-planning system that runs entirely inside a conversation with Claude. No app, no UI, no database. The "backend" is a single `CLAUDE.md` of agent instructions plus four Markdown files of runtime state on your local disk.
+A personal daily-planning system that runs entirely inside a conversation with an AI coding agent. No app, no UI, no database. The "backend" is a single [`AGENTS.md`](AGENTS.md) of agent instructions (following the [agents.md](https://agents.md) standard) plus four Markdown files of runtime state on your local disk.
 
 Built on a research base ([investigacion.md](investigacion.md)) drawing on Zeigarnik tension, decision fatigue, BRAC ultradian cycles, chronotype synchrony, and Parkinson's Law.
 
@@ -25,10 +25,20 @@ This system is a constraint engine, not a productivity hack. It enforces:
 
 ## What you need
 
-- [Claude Code](https://docs.claude.com/claude-code) installed locally, **or**
-- Access to claude.ai with this repository as a project
-- *(Optional)* Google Calendar MCP for fixed commitments and conflict detection
-- *(Optional)* Gmail MCP for capturing tasks from email triage
+- **Any agent that respects the [AGENTS.md](https://agents.md/) standard.** That includes:
+  - [Claude Code](https://docs.claude.com/claude-code) (Anthropic)
+  - [OpenCode](https://opencode.ai)
+  - [Cursor](https://cursor.com)
+  - [Aider](https://aider.chat)
+  - [Antigravity / Gemini CLI](https://github.com/google-gemini/gemini-cli) (Google)
+  - [Goose](https://block.github.io/goose/) (Block)
+  - [Codeium](https://codeium.com) / Windsurf
+  - Anything else that follows the standard.
+
+  For older versions of Claude Code that read `CLAUDE.md` instead, a one-line compatibility stub points to `AGENTS.md`. For Cursor users, `.cursorrules` does the same.
+
+- *(Optional)* Google Calendar MCP for fixed commitments and conflict detection.
+- *(Optional)* Gmail MCP for capturing tasks from email triage.
 
 ---
 
@@ -39,11 +49,11 @@ git clone <this repo> organiza-tu-dia
 cd organiza-tu-dia
 ```
 
-Then open Claude Code in that directory and start with:
+Then open your agent of choice in that directory and start with:
 
 > "Hola, quiero empezar el sistema."  *(or in English: "Let's start.")*
 
-Claude reads `CLAUDE.md`, detects you're a new user (no `memory/` directory yet), and runs the onboarding flow:
+The agent reads [`AGENTS.md`](AGENTS.md), detects you're a new user (no `memory/` directory yet), and runs the onboarding flow:
 
 1. **Calibration** — chronotype, daily capacity, timezone. *(~5 min)*
 2. **First capture** — frictionless brain-dump of everything pending. *(~10 min)*
@@ -57,7 +67,8 @@ Total: under 30 minutes. After that, every conversation joins you mid-flow at th
 
 | Path | Role |
 |------|------|
-| [`CLAUDE.md`](CLAUDE.md) | Agent instructions. The engine. |
+| [`AGENTS.md`](AGENTS.md) | Agent instructions (agents.md standard). The engine. |
+| `CLAUDE.md`, `.cursorrules` | One-line compatibility stubs pointing to `AGENTS.md`. |
 | [`investigacion.md`](investigacion.md) | Theoretical base. Reference for the agent and for you. |
 | `templates/` | Empty templates to seed your runtime files. |
 | `docs/` | Architecture, daily flow, FAQ. |
@@ -72,13 +83,13 @@ Total: under 30 minutes. After that, every conversation joins you mid-flow at th
 
 ## How it works (one paragraph)
 
-Each conversation, Claude reads your inbox and the current plan, identifies which of five layers you're in — onboarding, capture, triage, assignment, or closure — and runs the matching flow. Tasks are placed into 90-minute BRAC blocks aligned with your chronotype: analytical at the circadian peak, creative at the trough, admin at transitions. Every block closes with three lines (completed / open / next physical action) before recovery starts. Timeboxes are hard. The backlog is hidden by default. The system protects you from yourself.
+Each conversation, the agent reads your inbox and the current plan, identifies which of five layers you're in — onboarding, capture, triage, assignment, or closure — and runs the matching flow. Tasks are placed into 90-minute BRAC blocks aligned with your chronotype: analytical at the circadian peak, creative at the trough, admin at transitions. Every block closes with three lines (completed / open / next physical action) before recovery starts. Timeboxes are hard. The backlog is hidden by default. The system protects you from yourself.
 
 ---
 
 ## Customizing
 
-The agent's behavior is defined entirely by [`CLAUDE.md`](CLAUDE.md). Edit it to change:
+The agent's behavior is defined entirely by [`AGENTS.md`](AGENTS.md). Edit it to change:
 
 - Block durations (default: 90/20).
 - Maximum blocks per day (default: 2–3 weekday, 3–4 protected weekend).

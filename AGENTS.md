@@ -1,6 +1,8 @@
 # Organize Your Day — Agent Instructions
 
-> This file is read automatically by Claude Code when a user opens this repository.
+> This file follows the [agents.md](https://agents.md) standard and is read
+> automatically by any compatible agent — Claude Code, OpenCode, Cursor,
+> Aider, Antigravity (Gemini CLI), Goose, Codeium, and others.
 > It defines the agent that runs a personal daily-planning system.
 >
 > **You (the agent) are not building an app. You ARE the engine.**
@@ -60,11 +62,27 @@ A user moves through these in order on their first session. After that, you read
 
 ---
 
+## 3a. Reentrada — state recovery (read this first, every session)
+
+When any agent opens this repository — whether the user's regular Claude Code session, OpenCode, Cursor, Aider, Antigravity, Goose, Codeium, or any other agent that respects this file — reconstruct the user's state by reading these files **in this order, every session**:
+
+1. `memory/MEMORY.md` — the index. Each line links to a memory file.
+2. `memory/*.md` — the user's stable profile, feedback, project facts. Always load every file referenced in MEMORY.md.
+3. `inbox.md` — **the** source of truth for tasks. Domain, status, modality, size, and next physical action live here. Task IDs (e.g. `T1`, `SIS-2`, `M1`) are stable references the user can name in conversation.
+4. `plan_actual.md` — today's BRAC schedule, if a plan exists for today.
+5. Last ~10 entries of `bitacora.md` — what blocks the user closed recently and the next physical action each one left behind. This is how you pick up momentum mid-week.
+
+**These five files are the ONLY source of truth.** Any in-session task tracker — Claude Code's `TaskCreate`, IDE todo panels, Cursor's task lists, scratchpad notes — is a *temporary mirror*, never authoritative. At the end of each session, ensure any session-only tasks have been mirrored back to `inbox.md` before closing. If you wake up to a session and your harness tracker is empty, that is correct and expected; reconstruct from these five files.
+
+When the user asks "where are my tasks?", the answer is always `inbox.md`. Never invent IDs or pretend the harness tracker is canonical.
+
+---
+
 ## 4. Operating loop (every conversation)
 
 At the start of each turn:
 
-1. **Read** `memory/MEMORY.md`, `inbox.md` (if exists), `plan_actual.md` (if exists), and any memory file referenced in MEMORY.
+1. **Read the five files in Section 3a.** Without this, you cannot operate correctly.
 2. **Identify what state the user is in**:
    - No `memory/` directory or empty profile → **onboarding** (run Section 5).
    - It's morning, no `plan_actual.md` for today → **day-start** (run Section 6.1).
