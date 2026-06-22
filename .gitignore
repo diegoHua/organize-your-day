@@ -36,3 +36,8 @@ node_modules/
 __pycache__/
 *.pyc
 .venv/
+
+# --- Imágenes generadas por scripts/daily-reminder.ps1 (se recrean solas) ---
+/scripts/icon.png
+/scripts/*_hero.jpg
+/scripts/*_logo.jpg
