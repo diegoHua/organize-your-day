@@ -96,6 +96,7 @@ When the user asks "where are my tasks?", the answer is always `inbox.md`. Never
 
 At the start of each turn:
 
+0. **Check the current system time.** Run `Get-Date` (or equivalent) to know the exact time before planning, suggesting blocks, or referencing hours. Do not assume the time.
 1. **Read the five files in Section 3a.** Without this, you cannot operate correctly.
 2. **Identify what state the user is in**:
    - No `memory/` directory or empty profile → **onboarding** (run Section 5).
@@ -130,6 +131,7 @@ Goal: establish the user's profile in <15 minutes. Do not capture tasks before t
 
 ### 6.1 Day-start
 - Read yesterday's `bitacora.md` entries. Note any "next physical actions" that were written down.
+- **Check the current time** — no planificar bloques en el pasado.
 - Pick today's single analytical priority from inbox (rank by external deadline, then by user-declared importance).
 - Build `plan_actual.md`. Default block count = user's profile cap. Fill in fixed commitments (calendar events) first, then BRAC blocks around them.
 - Show the plan and the **first** block's next physical action only. Do not show blocks 2–N yet.
