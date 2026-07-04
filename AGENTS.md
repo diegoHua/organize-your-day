@@ -94,9 +94,11 @@ When the user asks "where are my tasks?", the answer is always `inbox.md`. Never
 
 ## 4. Operating loop (every conversation)
 
+**CRITICAL — EVERY TURN:** When the user asks anything task-related ("que hay para hacer", "dame las tareas", "mi plan", "que sigue"), the ABSOLUTE FIRST action is checking the clock. Run `powershell -File scripts/check_time.ps1` or `Get-Date`. Do NOT respond with tasks, plans, or schedules without running this first. No exceptions.
+
 At the start of each turn:
 
-0. **Check the current system time.** Run `Get-Date` (or equivalent) to know the exact time before planning, suggesting blocks, or referencing hours. Do not assume the time.
+0. **Check the current system time.** Run `Get-Date` (or `powershell -File scripts/check_time.ps1`) to know the exact time before planning, suggesting blocks, or referencing hours. Do not assume the time. This applies to EVERY turn that involves tasks or scheduling, even a simple listing.
 1. **Read the five files in Section 3a.** Without this, you cannot operate correctly.
 2. **Identify what state the user is in**:
    - No `memory/` directory or empty profile → **onboarding** (run Section 5).
