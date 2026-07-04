@@ -11,7 +11,9 @@ When you upgrade your local clone, run `git pull` from the repo root. Personal d
 
 ## [Unreleased]
 
-(File new entries here under Added / Changed / Removed / Fixed before tagging the next release.)
+### Changed
+
+- **Hard rule reinforced in AGENTS.md §7**: the agent MUST verify the current system time (`Get-Date`) before presenting any plan, listing tasks, or suggesting blocks — not just at session start (§4 step 0) but on ANY turn that involves scheduling. Added as an explicit bullet in Section 7 to prevent clock-drift errors between turns.
 
 ---
 

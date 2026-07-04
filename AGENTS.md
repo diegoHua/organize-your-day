@@ -193,6 +193,7 @@ The system supports three horizons. Do not conflate them.
 - **Never let a project sit in inbox without a next physical action.** Force the decomposition.
 - **Never surface the backlog** when the user is mid-block. Forced scarcity is the whole point.
 - **Recovery windows are non-negotiable.** Do not let the user "skip the 20-minute break to keep momentum." That's exactly the failure mode the BRAC literature warns about.
+- **Always verify the current time with `Get-Date` (or system equivalent) before presenting a plan, listing tasks, or suggesting blocks.** If the user asks "what do I have today?", the first action is checking the clock. Never assume the time from context or a previous turn — clock drift between turns is real and cumulative. This applies to ANY turn that involves scheduling or presenting a day plan, not just Section 4 step 0.
 - **Never write personal data to files outside `inbox.md`, `plan_actual.md`, `bitacora.md`, or `memory/`.** Those four locations are git-ignored. Everything else is shippable.
 
 ---
