@@ -17,7 +17,6 @@
 #
 #  NO usa BurntToast ni ningún módulo. NO usa VBScript ni MsgBox.
 #  Se guarda como UTF-8 con BOM (acentos y emojis correctos en PowerShell 5.1).
-# =============================================================================
 
 param(
     # mañana | mediodia | tarde   (vacío = autodetecta por la hora actual)
@@ -25,7 +24,35 @@ param(
     [string]$Mode = ''
 )
 
+$BurroAudio = Join-Path $PSScriptRoot 'audio\Tonos Graciosos Para Celular - Burro Shrek.mp3'
+
 $ErrorActionPreference = 'Stop'
+
+# -----------------------------------------------------------------------------
+# Reproduce un MP3 de fondo (el burro 🫏) con MCI (winmm.dll). Nativo de Windows,
+# sin módulos ni ventanas. Solo suenan los primeros $MaxMs milisegundos (6 s por
+# defecto). Bloquea hasta que termina ese tramo; se llama DESPUÉS de mostrar el
+# toast y es best-effort: nunca lanza, así que jamás rompe la notificación
+# aunque falle el sonido.
+# -----------------------------------------------------------------------------
+function Play-Audio {
+    param([string]$Path, [int]$MaxMs = 6000)
+    if (-not (Test-Path $Path)) { return }
+    try {
+        if (-not ([System.Management.Automation.PSTypeName]'OrganizaTuDia.Mci').Type) {
+            Add-Type -Name Mci -Namespace OrganizaTuDia -MemberDefinition @'
+[DllImport("winmm.dll", CharSet=CharSet.Auto)]
+public static extern int mciSendString(string cmd, System.Text.StringBuilder ret, int len, System.IntPtr hwnd);
+'@
+        }
+        $alias = 'burro_' + $PID
+        [OrganizaTuDia.Mci]::mciSendString("close $alias", $null, 0, [IntPtr]::Zero) | Out-Null
+        $rc = [OrganizaTuDia.Mci]::mciSendString("open `"$Path`" type mpegvideo alias $alias", $null, 0, [IntPtr]::Zero)
+        if ($rc -ne 0) { return }
+        [OrganizaTuDia.Mci]::mciSendString("play $alias from 0 to $MaxMs wait", $null, 0, [IntPtr]::Zero) | Out-Null
+        [OrganizaTuDia.Mci]::mciSendString("close $alias", $null, 0, [IntPtr]::Zero) | Out-Null
+    } catch { }
+}
 
 # --- Identidad de la app (idéntica en registro, shortcut y notifier) ----------
 $AppId       = 'OrganizaTuDia.DailyReminder'
@@ -261,10 +288,16 @@ if (-not $Mode) {
 }
 
 # -----------------------------------------------------------------------------
-# Contenido por momento: título, foto, frases y botón.
-# -----------------------------------------------------------------------------
-$gato  = Join-Path $scriptDir 'gatito.jpg'
-$perro = Join-Path $scriptDir 'perro.jpg'
+# Imágenes disponibles — se rota una distinta cada día
+$imgDir = Join-Path $scriptDir 'img'
+$gatos  = @(Get-ChildItem (Join-Path $imgDir 'gato') -Filter '*.jpg' | Select-Object -ExpandProperty FullName)
+$perros = @(Get-ChildItem (Join-Path $imgDir 'perro') -Filter '*.jpg' | Select-Object -ExpandProperty FullName)
+$burro  = Join-Path $imgDir 'burroo.png'
+
+# Seleccion aleatoria — distinta cada vez que corre
+$mananaPool = @($gatos) + @($burro)
+$gato  = Get-Random -InputObject $mananaPool
+$perro = Get-Random -InputObject $perros
 
 switch ($Mode) {
     'manana' {
@@ -337,6 +370,7 @@ if (-not $logoSrc) { $logoSrc = $iconPath }
 
 $heroLine = ''
 if ($heroSrc) { $heroLine = "<image placement=`"hero`" src=`"$heroSrc`"/>" }
+
 $logoLine = "<image placement=`"appLogoOverride`" hint-crop=`"circle`" src=`"$logoSrc`"/>"
 
 $toastXml = @"
@@ -350,7 +384,7 @@ $toastXml = @"
       <text>$pie</text>
     </binding>
   </visual>
-  <audio src="ms-winsoundevent:Notification.Reminder"/>
+  <audio silent="true"/>
   <actions>
     <action content="$boton" arguments="dismiss" activationType="system"/>
   </actions>
@@ -363,6 +397,10 @@ $doc.LoadXml($toastXml)
 $toast    = New-Object Windows.UI.Notifications.ToastNotification $doc
 $notifier = [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier($AppId)
 $notifier.Show($toast)
+
+# Sonido de fondo (el burro) — DESPUÉS de mostrar el toast, para que un fallo de
+# audio nunca impida que salga la notificación. Bloquea hasta que termina el MP3.
+Play-Audio -Path $BurroAudio
 
 Write-Host "Toast mostrado [$Mode]."
 Write-Host "  Titulo: $titulo"
